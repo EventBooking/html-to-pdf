@@ -7,7 +7,9 @@ function convertHtml(name) {
             console.log(err);
             return;
         }
-        convert(data, function (err, pdf) {
+        convert({
+            html: data
+        }, null, function (err, pdf) {
             if (err) {
                 console.log(err);
                 return;

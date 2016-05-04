@@ -11,8 +11,8 @@ function getHtml($, $styles, section) {
     return $.html($view);
 }
 
-function convert(html, cb) {
-    var $ = cheerio.load(html);
+function convert(event, context, callback) {
+    var $ = cheerio.load(event.html);
 
     fs.readFile('./bower_components/froala-wysiwyg-editor/css/froala_style.css', 'utf8', function (err, css) {
         var $styles = $('<style type="text/css"></style>').text(css);
@@ -25,11 +25,10 @@ function convert(html, cb) {
         }
 
         conversion(options, function (err, pdf) {
-            if (cb) {
-                cb(err, pdf);
+            if (callback) {
+                callback(err, pdf);
             }
             conversion.kill();
-
         });
     });
 }

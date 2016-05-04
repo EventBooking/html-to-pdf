@@ -1,0 +1,23 @@
+{
+  "name": "html-to-pdf",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/EventBooking/html-to-pdf",
+  "authors": [
+    "Mike Walters <mike@eventbooking.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "froala-wysiwyg-editor": "~2.2.4"
+  }
+}

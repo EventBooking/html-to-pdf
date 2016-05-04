@@ -1,0 +1,16 @@
+{
+  "name": "nodepdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "phantom-html-to-pdf": "^0.4.1",
+    "phantomjs-prebuilt": "^2.1.7"
+  }
+}

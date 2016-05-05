@@ -1,6 +1,8 @@
 var htmlToPdf = require('../index.js'),
     fs = require("fs");
 
+
+
 function convertHtml(name) {
     fs.readFile('./test/' + name + '.html', 'utf8', function (err, data) {
         if (err) {
@@ -9,12 +11,14 @@ function convertHtml(name) {
         }
         htmlToPdf.convert({
             html: data
-        }, null, function (err, pdf) {
+        }, null, function (err, result) {
             if (err) {
                 console.log(err);
                 return;
             }
-            pdf.stream.pipe(fs.createWriteStream('./test/' + name + '.pdf'));
+            
+            var buffer = new Buffer(result.data, 'base64');
+            fs.writeFileSync('./test/' + name + '.pdf', buffer);
         });
     });
 }

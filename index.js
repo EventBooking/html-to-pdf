@@ -12,6 +12,16 @@ function getHtml($, $styles, section) {
     return $.html($view);
 }
 
+function getBuffer(stream, callback) {
+    var buffer;
+    stream.on('data', function (data) {
+        buffer = data;
+    });
+    stream.on('end', function () {
+        callback(buffer);
+    });
+}
+
 exports.convert = function (event, context, callback) {
     var $ = cheerio.load(event.html);
 
@@ -26,9 +36,15 @@ exports.convert = function (event, context, callback) {
         }
 
         conversion(options, function (err, pdf) {
-            if (callback) {
-                callback(err, pdf);
-            }
+            getBuffer(pdf.stream, function (buffer) {
+                if (callback) {
+                    var base64 = buffer.toString('base64');
+                    callback(err, {
+                        data: base64
+                    });
+                }
+            })
+
             conversion.kill();
         });
     });

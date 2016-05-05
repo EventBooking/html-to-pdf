@@ -1,4 +1,4 @@
-var convert = require('../index.js'),
+var htmlToPdf = require('../index.js'),
     fs = require("fs");
 
 function convertHtml(name) {
@@ -7,7 +7,7 @@ function convertHtml(name) {
             console.log(err);
             return;
         }
-        convert({
+        htmlToPdf.convert({
             html: data
         }, null, function (err, pdf) {
             if (err) {

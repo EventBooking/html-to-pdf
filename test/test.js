@@ -1,9 +1,8 @@
 var htmlToPdf = require('../index.js'),
-    fs = require("fs");
+    fs = require("fs"),
+    Stopwatch = require("timer-stopwatch");
 
-
-
-function convertHtml(name) {
+function convertHtml(name, cb) {
     fs.readFile('./test/' + name + '.html', 'utf8', function (err, data) {
         if (err) {
             console.log(err);
@@ -16,11 +15,17 @@ function convertHtml(name) {
                 console.log(err);
                 return;
             }
-            
+
             var buffer = new Buffer(result.data, 'base64');
             fs.writeFileSync('./test/' + name + '.pdf', buffer);
+            cb();
         });
     });
 }
 
-convertHtml('test');
+var timer = new Stopwatch();
+timer.start();
+convertHtml('test', function () {
+    timer.stop();
+    console.log(timer.ms + 'ms');
+});

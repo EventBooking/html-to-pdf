@@ -18,6 +18,5 @@
     "tests"
   ],
   "dependencies": {
-    "froala-wysiwyg-editor": "~2.2.4"
   }
 }

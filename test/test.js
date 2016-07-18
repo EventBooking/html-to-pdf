@@ -9,7 +9,10 @@ function convertHtml(name, cb) {
             return;
         }
         htmlToPdf.convert({
-            html: data
+            html: data,
+            paperSize: {
+                orientation: 'landscape'
+            }
         }, null, function (err, result) {
             if (err) {
                 console.log(err);

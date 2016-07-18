@@ -1,11 +1,10 @@
 var conversion = require("phantom-html-to-pdf")(),
     phantomjs = require("phantomjs-prebuilt"),
     cheerio = require('cheerio'),
-    fs = require("fs"),
-    froala_css = './bower_components/froala-wysiwyg-editor/css/froala_style.css';
+    fs = require("fs");
 
 function getHtml($, $styles, section) {
-    var $view = $('<div class="fr-view"></div>');
+    var $view = $('<div></div>');
     var $section = $(section);
     $view.append($styles);
     $view.append($section);
@@ -24,28 +23,26 @@ function getBuffer(stream, callback) {
 
 exports.convert = function (event, context, callback) {
     var $ = cheerio.load(event.html);
+    var $styles = $('<style type="text/css"></style>').text(event.css);
 
-    fs.readFile(froala_css, 'utf8', function (err, css) {
-        var $styles = $('<style type="text/css"></style>').text(css);
+    var options = {
+        header: $('header').html(),
+        html: $('content').html(),
+        footer: $('footer').html(),
+        phantomPath: phantomjs.path,
+        paperSize: event.paperSize
+    };
 
-        var options = {
-            header: getHtml($, $styles, 'header'),
-            html: getHtml($, $styles, 'content'),
-            footer: getHtml($, $styles, 'footer'),
-            phantomPath: phantomjs.path
-        }
+    conversion(options, function (err, pdf) {
+        getBuffer(pdf.stream, function (buffer) {
+            if (callback) {
+                var base64 = buffer.toString('base64');
+                callback(err, {
+                    data: base64
+                });
+            }
+        })
 
-        conversion(options, function (err, pdf) {
-            getBuffer(pdf.stream, function (buffer) {
-                if (callback) {
-                    var base64 = buffer.toString('base64');
-                    callback(err, {
-                        data: base64
-                    });
-                }
-            })
-
-            conversion.kill();
-        });
+        conversion.kill();
     });
 }

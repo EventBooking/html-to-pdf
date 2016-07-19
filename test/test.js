@@ -8,12 +8,15 @@ function convertHtml(name, cb) {
             console.log(err);
             return;
         }
-        htmlToPdf.convert({
+
+        var data = {
             html: data,
             paperSize: {
                 orientation: 'landscape'
             }
-        }, null, function (err, result) {
+        };
+
+        htmlToPdf.convert(data, null, function (err, result) {
             if (err) {
                 console.log(err);
                 return;
@@ -28,7 +31,7 @@ function convertHtml(name, cb) {
 
 var timer = new Stopwatch();
 timer.start();
-convertHtml('test', function () {
+convertHtml('test2', function () {
     timer.stop();
     console.log(timer.ms + 'ms');
 });

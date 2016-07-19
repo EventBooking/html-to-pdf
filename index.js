@@ -3,14 +3,6 @@ var conversion = require("phantom-html-to-pdf")(),
     cheerio = require('cheerio'),
     fs = require("fs");
 
-function getHtml($, $styles, section) {
-    var $view = $('<div></div>');
-    var $section = $(section);
-    $view.append($styles);
-    $view.append($section);
-    return $.html($view);
-}
-
 function getBuffer(stream, callback) {
     var buffer;
     stream.on('data', function (data) {
@@ -23,7 +15,6 @@ function getBuffer(stream, callback) {
 
 exports.convert = function (event, context, callback) {
     var $ = cheerio.load(event.html);
-    var $styles = $('<style type="text/css"></style>').text(event.css);
 
     var options = {
         header: $('header').html(),
@@ -33,7 +24,15 @@ exports.convert = function (event, context, callback) {
         paperSize: event.paperSize
     };
 
+    // console.log(options);
+
     conversion(options, function (err, pdf) {
+        if (err) {
+            console.log(err);
+            callback(err);
+            return;
+        }
+
         getBuffer(pdf.stream, function (buffer) {
             if (callback) {
                 var base64 = buffer.toString('base64');

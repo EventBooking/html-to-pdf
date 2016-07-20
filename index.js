@@ -1,7 +1,9 @@
 var conversion = require("phantom-html-to-pdf")(),
     phantomjs = require("phantomjs-prebuilt"),
     cheerio = require('cheerio'),
-    fs = require("fs");
+    fs = require("fs"),
+    minify = require("html-minifier").minify,
+    strip = require("strip-comment");
 
 function getBuffer(stream, callback) {
     var buffer;
@@ -13,18 +15,29 @@ function getBuffer(stream, callback) {
     });
 }
 
+function getHtml($, name) {
+    var $section = $(name);
+    if($section.length == 0)
+        return null;
+    return $.html($section);
+}
+
+function fixImport(html) {
+    html = html.replace('url("//', 'url("');
+    return html;
+}
+
 exports.convert = function (event, context, callback) {
-    var $ = cheerio.load(event.html);
+    var html = fixImport(event.html);
+    var $ = cheerio.load(html);
 
     var options = {
-        header: $('header').html(),
-        html: $('content').html(),
-        footer: $('footer').html(),
+        header: getHtml($,'header'),
+        html: getHtml($,'content'),
+        footer: getHtml($,'footer'),
         phantomPath: phantomjs.path,
         paperSize: event.paperSize
     };
-
-    // console.log(options);
 
     conversion(options, function (err, pdf) {
         if (err) {

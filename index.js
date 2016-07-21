@@ -15,31 +15,34 @@ function getBuffer(stream, callback) {
     });
 }
 
-function getHtml($, name) {
-    var $section = $(name);
-    if($section.length == 0)
-        return null;
-    return $.html($section);
-}
-
 function fixImport(html) {
+    
     html = html.replace('url("//', 'url("');
     return html;
 }
 
-exports.convert = function (event, context, callback) {
-    var html = fixImport(event.html);
+function sanitize(html) {
+    if (html == null)
+        return null;
+
+    html = fixImport(html);
+
     var $ = cheerio.load(html);
+    
+    var $head = $('head');
+    $head.prepend('<style type="text/css">html{zoom: 0.53;}</style>');
+    
+    return $.html();
+}
 
-    var options = {
-        header: getHtml($,'header'),
-        html: getHtml($,'content'),
-        footer: getHtml($,'footer'),
-        phantomPath: phantomjs.path,
-        paperSize: event.paperSize
-    };
+exports.convert = function (event, context, callback) {
 
-    conversion(options, function (err, pdf) {
+    event.header = sanitize(event.header);
+    event.html = sanitize(event.html);
+    event.footer = sanitize(event.footer);
+    event.phantomPath = phantomjs.path;
+
+    conversion(event, function (err, pdf) {
         if (err) {
             console.log(err);
             callback(err);

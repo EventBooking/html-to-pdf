@@ -7,7 +7,7 @@
     "test": "node test/test.js",
     "package": "zip -r html-to-pdf.zip *",
     "upload": "aws s3 cp html-to-pdf.zip s3://venueops-pdf-output",
-    "pub": "aws lambda update-function-code --region us-west-2 --function-name arn:aws:lambda:us-west-2:513485385076:function:html-to-pdf --zip-file fileb://html-to-pdf.zip"
+    "pub": "aws lambda update-function-code --region us-east-1 --function-name arn:aws:lambda:us-east-1:513485385076:function:html-to-pdf --zip-file fileb://html-to-pdf.zip"
   },
   "author": "",
   "license": "ISC",

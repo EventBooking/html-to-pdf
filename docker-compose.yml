@@ -1,0 +1,18 @@
+version: '2'
+services:
+  test:
+    build: .
+    image: html-to-pdf
+    command: npm test
+    volumes:
+    - ./test:/home/test
+    - ./index.js:/home/index.js
+    - ./styles.css:/home/styles.css
+  
+  package:
+    build: .
+    image: html-to-pdf
+    command: npm run package
+    volumes:
+    - ./package.json:/home/package.json
+    - ./output:/home/output

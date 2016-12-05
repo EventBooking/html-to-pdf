@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node test/test.js",
     "package": "zip -r output/$npm_package_name-$npm_package_version.zip index.js package.json styles.css bin node_modules",
-    "upload": "aws s3 cp output/%npm_package_name%-%npm_package_version%.zip s3://venueops-pdf-output"
+    "upload": "aws s3 cp output/%npm_package_name%-%npm_package_version%.zip --region us-west-2 s3://venueops.packages.dev"
   },
   "author": "",
   "license": "ISC",

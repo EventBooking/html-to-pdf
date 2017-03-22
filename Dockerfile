@@ -1,4 +1,4 @@
-FROM node:4.3
+FROM node:6.10
 
 MAINTAINER Michael Walters, mike@eventbooking.com
 

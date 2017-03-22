@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "${workspaceRoot}/test/test.js",
+			"program": "${workspaceRoot}/index.js",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
@@ -17,9 +17,9 @@
 			"env": {
 				"NODE_ENV": "development"
 			},
-			"externalConsole": false,
+			"console":  "internalConsole",
 			"sourceMaps": false,
-			"outDir": null
+			"outFiles": []
 		},
 		{
 			"name": "Attach",
@@ -29,7 +29,7 @@
 			"address": "localhost",
 			"restart": false,
 			"sourceMaps": false,
-			"outDir": null,
+			"outFiles": [],
 			"localRoot": "${workspaceRoot}",
 			"remoteRoot": null
 		}

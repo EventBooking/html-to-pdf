@@ -1,5 +1,13 @@
 version: '2'
 services:
+  start:
+    build: .
+    image: html-to-pdf
+    command: npm start
+    ports:
+    - "80:80"
+    mem_limit: 1000m
+
   test:
     build: .
     image: html-to-pdf
@@ -8,11 +16,3 @@ services:
     - ./test:/home/test
     - ./index.js:/home/index.js
     - ./styles.css:/home/styles.css
-  
-  package:
-    build: .
-    image: html-to-pdf
-    command: npm run package
-    volumes:
-    - ./package.json:/home/package.json
-    - ./output:/home/output

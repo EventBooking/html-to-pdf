@@ -6,7 +6,8 @@ services:
     command: npm start
     ports:
     - "80:80"
-    mem_limit: 1000m
+    mem_limit: 1028m
+    restart: always
 
   test:
     build: .

@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
 app.use(bodyParser.json({ limit: "50mb" }));
 
 app.post('/', function(req, res) {
+    res.setTimeout(0);
+
     convert(req.body.html, req.body.args).then(result => {
         res.send({ data: result });
     }).catch(result => {

@@ -11,7 +11,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
 app.use(bodyParser.json({ limit: "50mb" }));
 
-app.post('/', function(req, res) {
+app.post('/', function (req, res) {
     res.setTimeout(0);
 
     convert(req.body.html, req.body.args).then(result => {
@@ -69,7 +69,7 @@ function convert(html, args) {
     // backward compat with original phantom render engine
     var $styles;
 
-    return new Promise((resolve, reject) => {        
+    return new Promise((resolve, reject) => {
         Promise.all([
             readFile('styles.css', 'utf-8')
         ]).then(styles => {

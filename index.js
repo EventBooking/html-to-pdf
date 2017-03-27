@@ -16,7 +16,8 @@ app.post('/', function(req, res) {
 
     convert(req.body.html, req.body.args).then(result => {
         res.send({ data: result });
-    }).catch(result => {
+    }).catch(error => {
+        console.error(error);
         res.status(500);
         res.send();
     });

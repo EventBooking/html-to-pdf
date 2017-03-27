@@ -3,17 +3,8 @@ services:
   start:
     build: .
     image: html-to-pdf
-    command: npm start
+    command: npm start -- 9050
     ports:
-    - "80:80"
+    - "9050:9050"
     mem_limit: 1028m
     restart: always
-
-  test:
-    build: .
-    image: html-to-pdf
-    command: npm test
-    volumes:
-    - ./test:/home/test
-    - ./index.js:/home/index.js
-    - ./styles.css:/home/styles.css

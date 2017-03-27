@@ -1,9 +1,10 @@
 var express = require("express"),
-    bodyParser = require("body-parser")
+    bodyParser = require("body-parser"),
     wkhtmltopdf = require("wkhtmltopdf"),
     cheerio = require('cheerio'),
     fs = require("fs");
 
+var port = process.argv.length > 2 ? parseInt(process.argv[2]) : 80;
 wkhtmltopdf.command = "./bin/wkhtmltopdf";
 
 var app = express();
@@ -21,7 +22,7 @@ app.post('/', function(req, res) {
     });
 });
 
-var server = app.listen(80);
+var server = app.listen(port);
 
 function readFile(name, type) {
     return new Promise((resolve, reject) => {
@@ -35,7 +36,12 @@ function readFile(name, type) {
     });
 }
 
-function render(content, options) {
+function render(content, args) {
+    var options = {
+        orientation: args.orientation || "landscape",
+        pageSize: args.pageSize || 'Letter'
+    };
+
     return new Promise((resolve, reject) => {
         var stream = wkhtmltopdf(content, options);
 

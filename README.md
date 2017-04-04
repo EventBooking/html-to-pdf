@@ -1,12 +1,15 @@
-# Building docker environment
+# Html to Pdf
+
+## Building docker environment
 ```docker-compose build```
 
-# Starting docker environment
+## Starting docker environment
 ```docker-compose run --service-ports start```
 
-# Running test
+## Running test
 ```npm test```
 
-# Debugging
+## Debugging
 ```npm run debug```
-(then attach vscode debugger)
+
+...then attach vscode debugger

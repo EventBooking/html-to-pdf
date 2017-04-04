@@ -4,7 +4,7 @@ var wkhtmltopdf = require("wkhtmltopdf"),
     path = require('path');
 
 var port = process.argv.length > 2 ? parseInt(process.argv[2]) : 80;
-wkhtmltopdf.command = "./bin/wkhtmltopdf";
+wkhtmltopdf.command = path.join(__dirname, "./bin/wkhtmltopdf");
 
 function readFile(name, type) {
     return new Promise((resolve, reject) => {

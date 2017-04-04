@@ -12,6 +12,18 @@ services:
     - ./styles.css:/home/styles.css
     - ./package.json:/home/package.json
     restart: always
+  test:
+    build: .
+    image: html-to-pdf
+    command: node ./test/test.js
+    ports:
+    - "9229:9229"
+    volumes:
+    - ./test:/home/test
+    - ./index.js:/home/index.js
+    - ./styles.css:/home/styles.css
+    - ./package.json:/home/package.json
+    restart: always
   env:
     build: .
     image: html-to-pdf

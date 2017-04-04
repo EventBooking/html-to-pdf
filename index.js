@@ -54,7 +54,7 @@ function convert(encodedHtml, options) {
     var $styles;
     return new Promise((resolve, reject) => {
         Promise.all([
-            readFile('styles.css', 'utf-8')
+            readFile('./styles.css', 'utf-8')
         ]).then(styles => {
             // ToDo: do something with the styles
             var html = decodeHtml(encodedHtml);

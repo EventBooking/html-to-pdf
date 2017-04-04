@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node test/test.js"
+    "test": "docker-compose run -d --service-ports debug"
   },
   "author": "",
   "license": "ISC",
@@ -19,8 +19,5 @@
     "timer-stopwatch": "^0.2.0",
     "aws": "0.0.3-2",
     "node-zip": "^1.1.1"
-  },
-  "engines": {
-    "node": "<=6.10.0"
   }
 }

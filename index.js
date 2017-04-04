@@ -1,29 +1,9 @@
-var express = require("express"),
-    bodyParser = require("body-parser"),
-    wkhtmltopdf = require("wkhtmltopdf"),
+var wkhtmltopdf = require("wkhtmltopdf"),
     cheerio = require('cheerio'),
     fs = require("fs");
 
 var port = process.argv.length > 2 ? parseInt(process.argv[2]) : 80;
 wkhtmltopdf.command = "./bin/wkhtmltopdf";
-
-var app = express();
-app.use(bodyParser.urlencoded({ limit: "50mb", extended: false }));
-app.use(bodyParser.json({ limit: "50mb" }));
-
-app.post('/', function (req, res) {
-    res.setTimeout(0);
-
-    convert(req.body.html, req.body.args).then(result => {
-        res.send({ data: result });
-    }).catch(error => {
-        console.error(error);
-        res.status(500);
-        res.send();
-    });
-});
-
-var server = app.listen(port);
 
 function readFile(name, type) {
     return new Promise((resolve, reject) => {
@@ -63,22 +43,26 @@ function fixImport(html) {
     return html;
 }
 
-function convert(html, args) {
-    // ToDo: header/footer
+function decodeHtml(base64) {
+    var buffer = new Buffer(base64, 'base64');
+    var utf8 = buffer.toString('utf8');
+    //console.log(`${utf8.substr(0, 100)}...${utf8.substr(utf8.length - 100, 100)}`);
+    return utf8;
+}
 
-    // backward compat with original phantom render engine
+function convert(encodedHtml, options) {
     var $styles;
-
     return new Promise((resolve, reject) => {
         Promise.all([
             readFile('styles.css', 'utf-8')
         ]).then(styles => {
             // ToDo: do something with the styles
+            var html = decodeHtml(encodedHtml);
             var $ = cheerio.load(html);
             var $styles = $('<style type="text/css"></style>').text(styles.join(';'));
             $("head").append($styles);
             var htmlStr = $.html();
-            return render(fixImport(htmlStr), args);
+            return render(fixImport(htmlStr), options);
         }).then(buffer => {
             var base64 = buffer.toString('base64');
             resolve(base64);
@@ -87,3 +71,5 @@ function convert(html, args) {
         });
     });
 }
+
+exports.convert = convert;

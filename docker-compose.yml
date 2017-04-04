@@ -1,5 +1,22 @@
 version: '2'
 services:
+  debug:
+    build: .
+    image: html-to-pdf
+    command: node --debug=0.0.0.0:9229 --debug-brk ./test/test.js
+    ports:
+    - "9229:9229"
+    volumes:
+    - ./test:/home/test
+    - ./converter.js:/home/converter.js
+    - ./style.js:/home/style.js
+    - ./package.json:/home/package.json
+  env:
+    build: .
+    image: html-to-pdf
+    command: /bin/bash
+    volumes:
+    - ./:/home
   start:
     build: .
     image: html-to-pdf

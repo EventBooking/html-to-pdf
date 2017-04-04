@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "docker-compose run -d --service-ports debug",
+    "debug": "node --debug=0.0.0.0:9229 --debug-brk ./test/test.js",
+    "test": "node ./test/test.js",
     "postinstall": "node postinstall.js"
   },
   "author": "",

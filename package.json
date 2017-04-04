@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "docker-compose run -d --service-ports debug"
+    "test": "docker-compose run -d --service-ports debug",
+    "postinstall": "node postinstall.js"
   },
   "author": "",
   "license": "ISC",

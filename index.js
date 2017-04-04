@@ -21,7 +21,7 @@ function render(content, args) {
     var options = {
         orientation: args.orientation || "landscape",
         pageSize: args.pageSize || 'Letter',
-        debug: true
+        debug: args.debug
     };
 
     return new Promise((resolve, reject) => {

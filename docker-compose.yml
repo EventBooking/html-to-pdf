@@ -8,20 +8,11 @@ services:
     - "9229:9229"
     volumes:
     - ./test:/home/test
-    - ./converter.js:/home/converter.js
-    - ./style.js:/home/style.js
+    - ./index.js:/home/index.js
+    - ./styles.css:/home/styles.css
     - ./package.json:/home/package.json
+    restart: always
   env:
     build: .
     image: html-to-pdf
     command: /bin/bash
-    volumes:
-    - ./:/home
-  start:
-    build: .
-    image: html-to-pdf
-    command: npm start -- 9050
-    ports:
-    - "9050:9050"
-    mem_limit: 1028m
-    restart: always

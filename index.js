@@ -20,7 +20,8 @@ function readFile(name, type) {
 function render(content, args) {
     var options = {
         orientation: args.orientation || "landscape",
-        pageSize: args.pageSize || 'Letter'
+        pageSize: args.pageSize || 'Letter',
+        debug: true
     };
 
     return new Promise((resolve, reject) => {

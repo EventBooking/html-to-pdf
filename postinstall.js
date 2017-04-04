@@ -1,4 +1,4 @@
 const fs = require('fs'),
     path = require('path');
 
-fs.chownSync(path.join(__dirname, "./bin/wkhtmltopdf"), 0111, -1);
+fs.chownSync(path.join(__dirname, "./bin/wkhtmltopdf"), 0111, 0000);

@@ -1,4 +1,7 @@
 const fs = require('fs'),
-    path = require('path');
+    path = require('path')
+    exec = require('child_process').exec;
 
-fs.chownSync(path.join(__dirname, "./bin/wkhtmltopdf"), 0111, 0000);
+var wkhtmltopdf = path.join(__dirname, "./bin/wkhtmltopdf");
+//fs.chownSync(wkhtmltopdf, 0111, 0000);
+exec(`chmod +x ${wkhtmltopdf}`);

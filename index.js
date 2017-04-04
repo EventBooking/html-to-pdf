@@ -1,6 +1,7 @@
 var wkhtmltopdf = require("wkhtmltopdf"),
     cheerio = require('cheerio'),
-    fs = require("fs");
+    fs = require("fs"),
+    path = require('path');
 
 var port = process.argv.length > 2 ? parseInt(process.argv[2]) : 80;
 wkhtmltopdf.command = "./bin/wkhtmltopdf";
@@ -54,7 +55,7 @@ function convert(encodedHtml, options) {
     var $styles;
     return new Promise((resolve, reject) => {
         Promise.all([
-            readFile('./styles.css', 'utf-8')
+            readFile(path.join(__dirname, 'styles.css'), 'utf-8')
         ]).then(styles => {
             // ToDo: do something with the styles
             var html = decodeHtml(encodedHtml);

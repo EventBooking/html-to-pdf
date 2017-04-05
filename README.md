@@ -22,12 +22,12 @@ htmlToPdf.convert(encodedHtml, options).then(result => {
 ```docker-compose build```
 
 ## Starting docker environment
-```docker-compose run --service-ports start```
+```docker-compose run --rm --service-ports start```
 
 ## Running test
-```npm test```
+```docker-compose run --rm --service-ports start npm test```
 
-## Debugging
-```npm run debug```
+## Debugging test
+```docker-compose run --rm --service-ports start npm run debug```
 
 ...then attach vscode debugger

@@ -11,5 +11,6 @@ RUN echo '{ "allow_root": true }' > /root/.bowerrc
 RUN npm install -g bower
 
 ADD package.json package.json
+ADD postinstall.js postinstall.js
 ADD bin bin
 RUN npm install

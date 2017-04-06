@@ -9,6 +9,7 @@ services:
     volumes:
     - ./test:/home/test
     - ./index.js:/home/index.js
+    - ./utils.js:/home/utils.js
     - ./styles.css:/home/styles.css
     - ./package.json:/home/package.json
     restart: always

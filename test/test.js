@@ -3,36 +3,37 @@ const converter = require('../index.js'),
     Stopwatch = require("timer-stopwatch"),
     path = require('path');
 
-function convertHtml(name) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path.join(__dirname, `${name}.html`), 'utf8', function (err, data) {
-            if (err) {
-                console.log(err);
-                return;
-            }
+async function convertHtml(name) {
+    try {
+        var data = fs.readFileSync(path.join(__dirname, `${name}.html`), 'utf8')
+        var encodedHtml = Buffer.from(data).toString('base64');
 
-            var buffer = new Buffer(data, 'utf8');
-            var encodedHtml = buffer.toString('base64');
+        var options = {
+            orientation: 'landscape'
+        };
 
-            var options = {
-                orientation: 'landscape'
-            };
+        var result = await converter.convert(encodedHtml, options);
+        var buffer = new Buffer(result, 'base64');
+        fs.writeFileSync(path.join(__dirname, `${name}.pdf`), buffer);
 
-            converter.convert(encodedHtml, options).then(result => {
-                var buffer = new Buffer(result, 'base64');
-                fs.writeFileSync(path.join(__dirname, `${name}.pdf`), buffer);
-                resolve();
-            }).catch(err => {
-                console.log(err);
-                reject(err);
-            });
-        });
-    });
+        return buffer;
+    } catch (err) {
+        console.log(err);
+        throw err;
+    }
 }
+
+var fileName = process.argv.length > 2 ? process.argv[2] : 'test';
 
 var timer = new Stopwatch();
 timer.start();
-convertHtml('test').then(() => {
+
+convertHtml(fileName).then(() => {
     timer.stop();
     console.log(timer.ms + 'ms');
-});;
+    process.exit(0);
+}).catch(err => {
+    timer.stop();
+    console.error(err);
+    process.exit(1);
+});

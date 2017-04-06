@@ -25,33 +25,29 @@ function render(content, args) {
     };
 
     return new Promise((resolve, reject) => {
-        wkhtmltopdf(content, options, (error, stream) => {
-            if (error) {
-                reject(error);
-                return;
-            }
+        var chunks = [];
+        var stream = wkhtmltopdf(content, options);
 
-            var chunks = [];
-            stream.on('data', data => {
-                chunks.push(data);
-            });
+        stream.on('data', data => {
+            chunks.push(data);
+        });
 
-            stream.on('end', () => {
-                var buffer = Buffer.concat(chunks);
-                resolve(buffer);
-            });
+        stream.on('end', () => {
+            var buffer = Buffer.concat(chunks);
+            resolve(buffer);
+        });
 
-            stream.on('error', err => {
-                console.error('failed: ', err);
-                reject(err);
-            });
-
+        stream.on('error', err => {
+            console.error('failed: ', err);
+            reject(err);
         });
     });
 }
 
-function fixImport(html) {
+function fixCss(html) {
     html = html.replace('url("//', 'url("http://');
+    html = html.replace(/url\(('|")+(.*)fontawesome-webfont(.*)('|")+\)/g, "url($1file:///home/node_modules/font-awesome/fonts/fontawesome-webfont$3$4)");
+    html = html.replace(/url\(('|")+(.*)ionicons(.*)('|")+\)/g, "url($1file:///home/node_modules/ionicons/dist/fonts/ionicons$3$4)");
     return html;
 }
 
@@ -65,6 +61,6 @@ function decodeHtml(base64) {
 module.exports = {
     readFile: readFile,
     render: render,
-    fixImport: fixImport,
+    fixCss: fixCss,
     decodeHtml: decodeHtml
 };

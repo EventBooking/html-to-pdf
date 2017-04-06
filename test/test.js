@@ -9,7 +9,8 @@ async function convertHtml(name) {
         var encodedHtml = Buffer.from(data).toString('base64');
 
         var options = {
-            orientation: 'landscape'
+            orientation: 'landscape',
+            debug: true
         };
 
         var result = await converter.convert(encodedHtml, options);

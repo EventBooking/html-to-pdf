@@ -10,7 +10,7 @@ async function convert(encodedHtml, options) {
     var $styles = $('<style type="text/css"></style>').text(styles);
     $("head").append($styles);
 
-    var content = utils.fixImport($.html());
+    var content = utils.fixCss($.html());
     var buffer = await utils.render(content, options);
 
     var base64 = buffer.toString('base64');

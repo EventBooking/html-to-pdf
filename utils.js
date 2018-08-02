@@ -17,11 +17,13 @@ function readFile(name, type) {
     });
 }
 
+// see: https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
+// see: https://www.npmjs.com/package/wkhtmltopdf
 function render(content, args) {
     var options = {
-        orientation: args.orientation || "landscape",
-        pageSize: args.pageSize || 'Letter',
-        debug: args.debug
+        orientation: "landscape",
+        pageSize: 'Letter',
+        ...args
     };
 
     return new Promise((resolve, reject) => {
